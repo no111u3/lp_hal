@@ -21,6 +21,7 @@
 #include <io_register.hh>
 #include <lp/bit_field.hh>
 #include <lp/operations.hh>
+#include <lp/type_list.hh>
 
 #include <type_traits.hh>
 
@@ -128,6 +129,9 @@ void io_register_test() {
     static_assert(set_value<0b0, 0b0111,
                   lp::bit_field<0>, lp::bit_field<1, 2>>(), "");
 
+    static_assert(set_value<0b0, 0b0111,
+                  lp::type_list<lp::bit_field<0>, lp::bit_field<1, 2>>>(), "");
+
     static_assert(set_value<0b0, 0b1010,
                   lp::bit_field<3>>(lp::bit_field<1, 2>{0b01}), "");
 
@@ -141,6 +145,9 @@ void io_register_test() {
 
     static_assert(modify_value<0b1010, 0b1000,
                   lp::toggle<lp::bit_field<1>>>(), "");
+
+    static_assert(modify_value<0b1010, 0b1000,
+                  lp::type_list<lp::toggle<lp::bit_field<1>>>>(), "");
 
     static_assert(modify_value<0b1010, 0b1000>
                   (lp::toggle<lp::bit_field<1>>{}), "");
